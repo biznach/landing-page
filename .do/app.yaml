@@ -1,0 +1,10 @@
+name: landing-page
+static_sites:
+- name: web
+  github:
+    repo: YOUR_USERNAME/YOUR_REPO
+    branch: main
+    deploy_on_push: true
+  output_dir: /
+  index_document: index.html
+  error_document: index.html

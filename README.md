@@ -4,7 +4,34 @@ A modern, responsive landing page built with HTML and CSS.
 
 ## Quick Deploy Options
 
-### Option 1: GitHub Pages (Free & Easy)
+### Option 1: DigitalOcean App Platform (Recommended)
+
+#### Step 1: Push to GitHub
+```bash
+# If you haven't already, create a new repository on GitHub
+# Then push your code:
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git branch -M main
+git push -u origin main
+```
+
+#### Step 2: Deploy to DigitalOcean
+1. Go to [DigitalOcean App Platform](https://cloud.digitalocean.com/apps)
+2. Click "Create App"
+3. Select "GitHub" as your source
+4. Authorize DigitalOcean to access your repository
+5. Select your repository and branch (main)
+6. DigitalOcean will auto-detect it as a static site
+7. Review and click "Next" → "Create Resources"
+8. Your site will deploy in ~2-3 minutes
+
+**Cost:** Free tier available (3 static sites free)
+
+**Your site will be live at:** `https://your-app-name.ondigitalocean.app`
+
+You can also add a custom domain in the app settings!
+
+### Option 2: GitHub Pages (Free & Easy)
 
 1. Create a new repository on GitHub
 2. Push this folder to the repository:

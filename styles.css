@@ -101,6 +101,30 @@ body {
     max-width: 720px;
 }
 
+.ipfs-badge {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 100px;
+    margin-left: 12px;
+    color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.06);
+    text-decoration: none;
+    vertical-align: middle;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+.ipfs-badge:hover {
+    color: #fff;
+    border-color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.12);
+}
+
 .hero-badge {
     display: inline-block;
     font-family: var(--font-display);

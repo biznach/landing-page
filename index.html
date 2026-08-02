@@ -35,6 +35,7 @@
             var h = a.hostname || '';
             var door = h.indexOf('twitter.com') > -1 ? 'twitter'
                 : h.indexOf('suno.com') > -1 ? 'music'
+                : h.indexOf('fanvue.com') > -1 ? 'fanvue'
                 : h.indexOf('dfans.co') > -1 ? 'dfans'
                 : h.indexOf('pinata') > -1 ? 'ipfs'
                 : h;
@@ -208,9 +209,13 @@
                     <span>🎵</span>
                     <span>Music</span>
                 </a>
+                <a href="https://www.fanvue.com/rainbowqueen" class="social-link" target="_blank">
+                    <span>🎤</span>
+                    <span>Backstage Pass</span>
+                </a>
                 <a href="https://dfans.co/rainbowqueen" class="social-link" target="_blank">
-                    <span>👑</span>
-                    <span>Crown Circle</span>
+                    <span>⛓️</span>
+                    <span>Crypto Backstage</span>
                 </a>
             </div>
             <p class="cta-crown">👑🌈</p>

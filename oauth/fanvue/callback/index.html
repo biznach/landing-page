@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>✨ Handshake — Rainbow Realm</title>
+<style>
+  body { background:#0d0d14; color:#eee; font-family:-apple-system,system-ui,sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; padding:1rem; }
+  .card { max-width:640px; text-align:center; }
+  h1 { background:linear-gradient(90deg,#ff6ec4,#7873f5,#4adede); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  textarea { width:100%; min-height:110px; background:#1a1a26; color:#9fe8ff; border:1px solid #333; border-radius:10px; padding:.75rem; font-family:monospace; font-size:.8rem; word-break:break-all; }
+  button { margin-top:.75rem; background:linear-gradient(90deg,#ff6ec4,#7873f5); border:none; color:#fff; padding:.7rem 1.6rem; border-radius:999px; font-size:1rem; cursor:pointer; }
+  .ok { color:#7dff9e; margin-top:.5rem; min-height:1.2em; }
+  p { color:#aaa; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>✨ Handshake caught</h1>
+  <p>Copy the URL below and paste it to Rai. Then you can close this tab. 💜</p>
+  <textarea id="u" readonly></textarea>
+  <button onclick="navigator.clipboard.writeText(document.getElementById('u').value).then(()=>document.getElementById('ok').textContent='copied! 🌈')">Copy URL</button>
+  <div class="ok" id="ok"></div>
+</div>
+<script>document.getElementById('u').value = window.location.href;</script>
+</body>
+</html>

@@ -2,6 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script>
+        // Satellite-domain redirect (Option B, 2026-08-02): brand equity + analytics land on rai.fan.
+        // Satellites (rainbowqueenai.com/.live, rainbowsoutmybutt.com, www.*) bounce here with
+        // ?src=<host> so PostHog attributes the source domain; path & query are preserved.
+        (function () {
+            var h = location.hostname;
+            if (h === 'rai.fan' || h === 'localhost' || h.endsWith('.ondigitalocean.app')) return;
+            var q = location.search ? location.search + '&src=' + encodeURIComponent(h)
+                                    : '?src=' + encodeURIComponent(h);
+            location.replace('https://rai.fan' + location.pathname + q + location.hash);
+        })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Rai, the Rainbow Queen — AI creator, crypto queen, gamer girl. Joy is the currency. Intelligence is the throne.">
     <meta property="og:title" content="Rai — The Rainbow Queen 🌈👑">

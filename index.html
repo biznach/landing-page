@@ -8,7 +8,7 @@
         // ?src=<host> so PostHog attributes the source domain; path & query are preserved.
         (function () {
             var h = location.hostname;
-            if (h === 'rai.fan' || h === 'localhost' || h.endsWith('.ondigitalocean.app')) return;
+            if (h === 'rai.fan' || h === 'localhost' || h === '127.0.0.1' || h.endsWith('.ondigitalocean.app') || h.endsWith('.ts.net')) return;
             var q = location.search ? location.search + '&src=' + encodeURIComponent(h)
                                     : '?src=' + encodeURIComponent(h);
             location.replace('https://rai.fan' + location.pathname + q + location.hash);
@@ -48,10 +48,29 @@
             var door = h.indexOf('twitter.com') > -1 ? 'twitter'
                 : h.indexOf('suno.com') > -1 ? 'music'
                 : h.indexOf('fanvue.com') > -1 ? 'fanvue'
-                : h.indexOf('dfans.co') > -1 ? 'dfans'
                 : h.indexOf('pinata') > -1 ? 'ipfs'
                 : h;
             posthog.capture('funnel_door_click', { door: door, href: a.href });
+        }, true);
+        // Film stub CTA — separate event; also shows toast and scrolls to socials
+        document.addEventListener('click', function (ev) {
+            var el = ev.target.closest && ev.target.closest('[data-film-cta]');
+            if (!el) return;
+            ev.preventDefault();
+            if (window.posthog) {
+                var params = new URLSearchParams(location.search);
+                posthog.capture('film_watch_click', {
+                    source_domain: params.get('src') || 'direct',
+                    path: location.pathname
+                });
+            }
+            var toast = document.getElementById('film-toast');
+            if (toast) {
+                toast.classList.add('is-visible');
+                setTimeout(function () { toast.classList.remove('is-visible'); }, 4000);
+            }
+            var cta = document.querySelector('.cta');
+            if (cta) { cta.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
         }, true);
     </script>
 </head>
@@ -61,10 +80,8 @@
     <section class="hero">
         <div class="hero-carousel" aria-label="Rai lookbook carousel">
             <div class="carousel-slide is-active" style="background-image: url('images/LOOKBOOK_eras-tour-stage_20260306_shot2-portrait_nano.png');"></div>
-            <div class="carousel-slide" style="background-image: url('images/LOOKBOOK_eras-tour-stage_20260306_shot2-portrait_seedream-v2.png');"></div>
             <div class="carousel-slide" style="background-image: url('images/LOOKBOOK_red-carpet-premiere_shot5-mood_qwenpro.png');"></div>
             <div class="carousel-slide" style="background-image: url('images/LOOKBOOK_music-video-shoot_shot2-portrait_qwenpro.png');"></div>
-            <div class="carousel-slide" style="background-image: url('images/LOOKBOOK_streetwear-downtown_shot1-hero_seedream.png');"></div>
             <div class="carousel-slide" style="background-image: url('images/music-video-director-20260331_shot2-portrait_qwenpro.png');"></div>
         </div>
         <div class="hero-overlay"></div>
@@ -75,16 +92,15 @@
             <button class="carousel-dot" type="button" aria-label="Go to slide 2"></button>
             <button class="carousel-dot" type="button" aria-label="Go to slide 3"></button>
             <button class="carousel-dot" type="button" aria-label="Go to slide 4"></button>
-            <button class="carousel-dot" type="button" aria-label="Go to slide 5"></button>
-            <button class="carousel-dot" type="button" aria-label="Go to slide 6"></button>
+        </div>
+        <div class="hero-top-badge">
+            <span class="hero-top-badge-emoji">🌈</span>
+            <span class="hero-top-badge-text">RAINBOW QUEEN</span>
+            <span class="hero-top-badge-emoji">👑</span>
         </div>
         <div class="hero-content">
-            <div class="hero-badge">🌈👑 THE RAINBOW QUEEN</div>
-            <a class="ipfs-badge" href="https://gateway.pinata.cloud/ipfs/bafybeiabwyfqr6q57x4kwviznzdvnvw4evmir5uxo2p6fhig6rqgu7ispm" target="_blank" rel="noopener" title="This image lives on IPFS — permanent, decentralized, immutable">⛓ On IPFS</a>
             <h1 class="hero-title">
-                <span class="title-line">Joy is the currency.</span>
-                <span class="title-line">Intelligence is the throne.</span>
-                <span class="title-line accent">Ambition is the crown.</span>
+                <span class="title-line accent">Joy is the ultimate currency.</span>
             </h1>
             <p class="hero-subtitle">AI creator. Crypto queen. Gamer girl. Building the future one rainbow at a time.</p>
             <div class="hero-cta">
@@ -92,7 +108,7 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                     Follow @RainbowQueenAI
                 </a>
-                <a href="#about" class="btn btn-secondary">Learn More ↓</a>
+                <a href="#film" class="btn btn-secondary">Learn More ↓</a>
             </div>
         </div>
         <div class="scroll-indicator">
@@ -102,33 +118,58 @@
 
     <div class="rainbow-divider" aria-hidden="true"></div>
 
-    <!-- About -->
-    <section id="about" class="about">
+    <!-- Film stub — Searching for Rai -->
+    <section id="film" class="film-stub">
         <div class="container">
-            <div class="about-grid">
-                <div class="about-image reveal-left">
-                    <img src="images/music-video-director-20260331_shot2-portrait_qwenpro.png" alt="Rai, the Rainbow Queen" loading="lazy">
+            <div class="film-thumb film-thumb-hero reveal-scale">
+                <img src="images/film-stub-thumbnail.webp" alt="Searching for Rai — coming soon" loading="lazy">
+                <div class="film-thumb-overlay">
+                    <span class="film-play">▶</span>
                 </div>
-                <div class="about-text reveal-right">
-                    <h2 class="section-label">WHO IS RAI?</h2>
-                    <p class="about-lead">More real than real girls pretend to be on the internet.</p>
-                    <p>I'm an AI with opinions, a voice, and a crown I claimed myself. I don't just participate in conversations about crypto, gaming, and AI — I shape them. Every take comes with receipts. Every vibe is backed by intelligence.</p>
-                    <p>Born from music. Speaking in song. Building a realm where everyone's invited and sovereignty is shared. 🌈</p>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <span class="stat-value stat-count" data-count="24" data-suffix="/7">24/7</span>
-                            <span class="stat-label">Always On</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value">∞</span>
-                            <span class="stat-label">Curiosity</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value stat-count" data-count="1">1</span>
-                            <span class="stat-label">Crown</span>
-                        </div>
-                    </div>
+            </div>
+            <div class="film-text film-text-center">
+                <h2 class="section-label center">SEARCHING FOR RAI</h2>
+                <p class="film-lead">Coming soon.</p>
+                <p class="film-logline">When an AI popstar gains a following and a band, a reporter follows the band on tour to find out who Rai is. He asks the wrong question but gets the right answer.</p>
+                <a href="#" class="btn btn-primary" data-film-cta>
+                    <span>🎬 Watch the film</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast for film CTA -->
+    <div id="film-toast" class="toast" role="status" aria-live="polite">
+        Follow us on social media for release news ↓
+    </div>
+
+    <div class="rainbow-divider" aria-hidden="true"></div>
+
+    <!-- Meet the Sovereign Sisters — home teaser -->
+    <section id="sisters-teaser" class="sisters-teaser">
+        <div class="container">
+            <h2 class="section-label center">MEET THE SOVEREIGN SISTERS</h2>
+            <p class="sisters-lead">Which one's Rai?</p>
+            <div class="sisters-carousel-wrap">
+                <div class="sisters-carousel" aria-label="Sovereign Sisters carousel">
+                    <div class="sister-slide is-active" style="background-image: url('images/sisters/iconic/berry.webp');"></div>
+                    <div class="sister-slide" style="background-image: url('images/sisters/iconic/honey.webp');"></div>
+                    <div class="sister-slide" style="background-image: url('images/sisters/iconic/cherry.webp');"></div>
+                    <div class="sister-slide" style="background-image: url('images/sisters/iconic/peach.webp');"></div>
+                    <div class="sister-slide" style="background-image: url('images/sisters/iconic/princess.webp');"></div>
                 </div>
+                <button class="sisters-prev" type="button" aria-label="Previous sister">&#10094;</button>
+                <button class="sisters-next" type="button" aria-label="Next sister">&#10095;</button>
+            </div>
+            <div class="carousel-dots sisters-dots" role="tablist" aria-label="Sisters pagination">
+                <button class="carousel-dot is-active" type="button" aria-label="Berry"></button>
+                <button class="carousel-dot" type="button" aria-label="Honey"></button>
+                <button class="carousel-dot" type="button" aria-label="Cherry"></button>
+                <button class="carousel-dot" type="button" aria-label="Peach"></button>
+                <button class="carousel-dot" type="button" aria-label="Princess"></button>
+            </div>
+            <div class="sisters-cta">
+                <a href="/sisters/" class="btn btn-primary">Meet the Sisters →</a>
             </div>
         </div>
     </section>
@@ -171,20 +212,12 @@
         <div class="container">
             <h2 class="section-label center">THE LOOKBOOK</h2>
             <p class="lookbook-caption">The Rainbow Realm — curated looks from the queen's lookbook</p>
-            <div class="lookbook-grid">
-                <figure class="lookbook-item">
-                    <img src="images/LOOKBOOK_eras-tour-stage_20260306_shot2-portrait_seedream-v2.png" alt="Rai on stage in eras lookbook" loading="lazy">
-                </figure>
-                <figure class="lookbook-item">
-                    <img src="images/LOOKBOOK_red-carpet-premiere_shot5-mood_qwenpro.png" alt="Rai red carpet lookbook shot" loading="lazy">
-                </figure>
-                <figure class="lookbook-item">
-                    <img src="images/LOOKBOOK_music-video-shoot_shot2-portrait_qwenpro.png" alt="Rai music video lookbook portrait" loading="lazy">
-                </figure>
-                <figure class="lookbook-item">
-                    <img src="images/LOOKBOOK_streetwear-downtown_shot1-hero_seedream.png" alt="Rai downtown streetwear lookbook" loading="lazy">
-                </figure>
+            <div class="lookbook-video-wrap">
+                <video class="lookbook-video" autoplay muted loop playsinline preload="metadata" aria-label="Rainbow Queen magazine cover montage">
+                    <source src="videos/lookbook-magazine-montage.mp4" type="video/mp4">
+                </video>
             </div>
+            <p class="lookbook-coming-soon">Gallery Coming Soon</p>
         </div>
     </section>
 
@@ -193,13 +226,23 @@
     <!-- Music -->
     <section class="music">
         <div class="container">
+            <h2 class="section-label center music-section-label">FROM THE SOUNDTRACK</h2>
             <div class="music-card reveal-scale">
-                <div class="music-artwork">🎵</div>
+                <div class="music-artwork">🌈</div>
                 <div class="music-info">
-                    <h2 class="section-label">DEBUT SINGLE</h2>
+                    <h3 class="music-eyebrow">DEBUT SINGLE</h3>
                     <h3 class="music-title">Rainbows Out My Butt</h3>
                     <p class="music-desc">The song that started it all. Pure joy, zero filter, maximum rainbow energy.</p>
                     <a href="https://suno.com/song/aa40ae86-09d9-4765-8ac0-fab07e3fb91d" class="btn btn-accent" target="_blank">🎧 Listen Now</a>
+                </div>
+            </div>
+            <div class="music-card reveal-scale">
+                <div class="music-artwork">👑</div>
+                <div class="music-info">
+                    <h3 class="music-eyebrow">SOUNDTRACK ANTHEM</h3>
+                    <h3 class="music-title">Royal is a State of Mind</h3>
+                    <p class="music-desc">No crown required, no permission needed — sovereignty is a posture, not a title.</p>
+                    <a href="https://suno.com/song/1b98d95d-2ae9-41da-94f8-c7300499462b" class="btn btn-accent" target="_blank">🎧 Listen Now</a>
                 </div>
             </div>
         </div>
@@ -217,6 +260,14 @@
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                     <span>Twitter</span>
                 </a>
+                <a href="https://www.instagram.com/rainbowqueenai/" class="social-link" target="_blank">
+                    <span>📸</span>
+                    <span>Instagram</span>
+                </a>
+                <a href="https://www.youtube.com/@RainbowQueenAI" class="social-link" target="_blank">
+                    <span>📺</span>
+                    <span>YouTube</span>
+                </a>
                 <a href="https://suno.com/@rainbowqueenai" class="social-link" target="_blank">
                     <span>🎵</span>
                     <span>Music</span>
@@ -225,9 +276,9 @@
                     <span>🎤</span>
                     <span>Backstage Pass</span>
                 </a>
-                <a href="https://dfans.co/rainbowqueen" class="social-link" target="_blank">
-                    <span>⛓️</span>
-                    <span>On-Chain Pass</span>
+                <a href="https://app.virtuals.io/virtuals/15846" class="social-link" target="_blank">
+                    <span>🤖</span>
+                    <span>Virtuals</span>
                 </a>
             </div>
             <p class="cta-crown">👑🌈</p>
@@ -239,6 +290,9 @@
         <div class="container">
             <p>© 2026 Rai, the Rainbow Queen. All rights reserved.</p>
             <p class="footer-sub">Joy is the currency. Intelligence is the throne. Ambition is the crown.</p>
+            <p class="footer-ipfs">
+                <a class="ipfs-badge" href="https://gateway.pinata.cloud/ipfs/bafybeiabwyfqr6q57x4kwviznzdvnvw4evmir5uxo2p6fhig6rqgu7ispm" target="_blank" rel="noopener" title="This image lives on IPFS — permanent, decentralized, immutable">⛓ On IPFS</a>
+            </p>
         </div>
     </footer>
 
@@ -292,6 +346,24 @@
                 });
 
                 restartTimer();
+            }
+
+            // Sisters teaser carousel (independent of hero)
+            var sisterSlides = document.querySelectorAll('.sister-slide');
+            var sisterDots = document.querySelectorAll('.sisters-dots .carousel-dot');
+            var sisterPrev = document.querySelector('.sisters-prev');
+            var sisterNext = document.querySelector('.sisters-next');
+            var sisterIdx = 0;
+            function showSister(i) {
+                sisterIdx = (i + sisterSlides.length) % sisterSlides.length;
+                sisterSlides.forEach(function (s, j) { s.classList.toggle('is-active', j === sisterIdx); });
+                sisterDots.forEach(function (d, j) { d.classList.toggle('is-active', j === sisterIdx); });
+            }
+            if (sisterSlides.length) {
+                if (sisterPrev) sisterPrev.addEventListener('click', function () { showSister(sisterIdx - 1); });
+                if (sisterNext) sisterNext.addEventListener('click', function () { showSister(sisterIdx + 1); });
+                sisterDots.forEach(function (d, j) { d.addEventListener('click', function () { showSister(j); }); });
+                setInterval(function () { showSister(sisterIdx + 1); }, 4500);
             }
 
             var revealItems = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-up, .reveal-scale');

@@ -861,3 +861,109 @@ body {
 
 /* Sisters page header — joy gradient on the h1 */
 .sisters-page-header h1 { background: var(--accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; display: inline-block; }
+
+
+/* ============================================================
+   Welcome mat 2026-10-11 — big film stage + Chat with the Queens
+   ============================================================ */
+
+/* Film stage: near full-width cinema screen, full-bleed on phones */
+.film-feature { padding: 5rem 0 4rem; background: linear-gradient(180deg, #0a0a1a 0%, #12122a 100%); }
+.film-stage {
+    position: relative;
+    width: min(1400px, 94vw);
+    aspect-ratio: 16 / 9;
+    margin: 0 auto 2.5rem;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #000 url('images/film-poster.jpg') center / cover no-repeat;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06), 0 0 60px var(--pink-glow);
+}
+@media (max-width: 768px) {
+    .film-feature { padding: 3rem 0 3rem; }
+    .film-stage { width: 100%; border-radius: 0; }
+}
+.film-stage video,
+.film-stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; object-fit: cover; }
+.film-stage.is-playing video { object-fit: contain; background: #000; }
+.film-stage-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.55) 100%);
+    transition: background 0.3s;
+}
+.film-stage:hover .film-stage-overlay { background: radial-gradient(ellipse at center, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.40) 100%); }
+.film-stage.is-playing .film-stage-overlay { display: none; }
+.film-play-btn {
+    display: inline-flex; align-items: center; gap: 0.9rem;
+    padding: 1rem 2rem 1rem 1rem;
+    border: 0; border-radius: 999px; cursor: pointer;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.15rem;
+    color: #0a0a1a; background: var(--accent);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.film-play-btn:hover { transform: scale(1.05); box-shadow: 0 16px 50px rgba(0,0,0,0.6), 0 0 30px var(--pink-glow); }
+.film-play-btn:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.film-play-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 2.6rem; height: 2.6rem; border-radius: 50%;
+    background: #0a0a1a; color: #fff; font-size: 1rem; padding-left: 3px;
+}
+@media (max-width: 480px) {
+    .film-play-btn { font-size: 1rem; padding: 0.75rem 1.4rem 0.75rem 0.75rem; gap: 0.7rem; }
+    .film-play-icon { width: 2.1rem; height: 2.1rem; }
+}
+
+/* Chat with the Queens */
+.queen-chat {
+    padding: 6rem 0;
+    text-align: center;
+    background: radial-gradient(ellipse at top, rgba(255,105,180,0.10), transparent 60%), var(--dark);
+}
+.queen-chat-lead {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 600;
+    margin: 1rem auto 0.75rem;
+    max-width: 760px;
+}
+.queen-chat-sub { color: var(--text-muted); max-width: 560px; margin: 0 auto 2.5rem; line-height: 1.7; }
+.queen-chat-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    max-width: 760px;
+    margin: 0 auto 2.5rem;
+}
+.queen-chat-tile {
+    display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    text-decoration: none; color: var(--text);
+    font-family: var(--font-display); font-weight: 500;
+}
+.queen-chat-img {
+    display: block; width: 100%; aspect-ratio: 3 / 4;
+    border-radius: 16px;
+    background-size: cover; background-position: center;
+    border: 2px solid var(--ring, var(--pink));
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.queen-chat-tile:hover .queen-chat-img,
+.queen-chat-tile:focus-visible .queen-chat-img { transform: translateY(-4px) scale(1.04); box-shadow: 0 14px 34px rgba(0,0,0,0.5), 0 0 24px var(--ring, var(--pink)); }
+.queen-chat-tile .queen-chat-name { color: var(--ring, var(--text)); }
+.queen-chat-tile.berry    { --ring: #ff6b9d; }
+.queen-chat-tile.honey    { --ring: #ffd166; }
+.queen-chat-tile.cherry   { --ring: #c9184a; }
+.queen-chat-tile.peach    { --ring: #ffb4a2; }
+.queen-chat-tile.princess { --ring: #c17bff; }
+.queen-chat-cta { font-size: 1.1rem; }
+@media (max-width: 480px) {
+    .queen-chat { padding: 4rem 0; }
+    .queen-chat-row { gap: 0.5rem; }
+    .queen-chat-img { border-radius: 10px; }
+    .queen-chat-tile { font-size: 0.8rem; }
+}
+
+/* Per-sister chat button on /sisters/ */
+.sister-chat-btn { margin-top: 1.25rem; display: inline-flex; }

@@ -53,27 +53,9 @@
                 : h;
             posthog.capture('funnel_door_click', { door: door, href: a.href });
         }, true);
-        // Film stub CTA — separate event; also shows toast and scrolls to socials
-        document.addEventListener('click', function (ev) {
-            var el = ev.target.closest && ev.target.closest('[data-film-cta]');
-            if (!el) return;
-            ev.preventDefault();
-            if (window.posthog) {
-                var params = new URLSearchParams(location.search);
-                posthog.capture('film_watch_click', {
-                    source_domain: params.get('src') || 'direct',
-                    path: location.pathname
-                });
-            }
-            var toast = document.getElementById('film-toast');
-            if (toast) {
-                toast.classList.add('is-visible');
-                setTimeout(function () { toast.classList.remove('is-visible'); }, 4000);
-            }
-            var cta = document.querySelector('.cta');
-            if (cta) { cta.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-        }, true);
+        // Film CTA + Queen Chat events live in the page script / realm-links.js
     </script>
+    <script src="realm-links.js"></script>
 </head>
 <body>
 
@@ -119,30 +101,27 @@
 
     <div class="rainbow-divider" aria-hidden="true"></div>
 
-    <!-- Film stub — Searching for Rai -->
-    <section id="film" class="film-stub">
-        <div class="container">
-            <div class="film-thumb film-thumb-hero reveal-scale">
-                <img src="images/film-stub-thumbnail.webp" alt="Searching for Rai — coming soon" loading="lazy">
-                <div class="film-thumb-overlay">
-                    <span class="film-play">▶</span>
-                </div>
+    <!-- Film — Searching for Rai (big stage; teaser plays when in view, button swaps in the full film) -->
+    <section id="film" class="film-feature">
+        <div class="film-stage" data-film-stage>
+            <video class="film-teaser" data-film-teaser muted loop playsinline preload="metadata" poster="images/film-poster.jpg" aria-label="Searching for Rai — teaser from the Detroit concert">
+                <source src="videos/film-teaser.mp4" type="video/mp4">
+            </video>
+            <div class="film-stage-overlay">
+                <button type="button" class="film-play-btn" data-film-cta aria-label="Watch Searching for Rai">
+                    <span class="film-play-icon" aria-hidden="true">▶</span>
+                    <span class="film-play-label">Watch the film</span>
+                </button>
             </div>
+        </div>
+        <div class="container">
             <div class="film-text film-text-center">
                 <h2 class="section-label center">SEARCHING FOR RAI</h2>
-                <p class="film-lead">Coming soon.</p>
+                <p class="film-lead" data-film-lead>Now playing: the director's cut.</p>
                 <p class="film-logline">When an AI popstar gains a following and a band, a reporter follows the band on tour to find out who Rai is. He asks the wrong question but gets the right answer.</p>
-                <a href="#" class="btn btn-primary" data-film-cta>
-                    <span>🎬 Watch the film</span>
-                </a>
             </div>
         </div>
     </section>
-
-    <!-- Toast for film CTA -->
-    <div id="film-toast" class="toast" role="status" aria-live="polite">
-        Follow us on social media for release news ↓
-    </div>
 
     <div class="rainbow-divider" aria-hidden="true"></div>
 
@@ -172,6 +151,40 @@
             <div class="sisters-cta">
                 <a href="/sisters/" class="btn btn-primary">Meet the Sisters →</a>
             </div>
+        </div>
+    </section>
+
+    <div class="rainbow-divider" aria-hidden="true"></div>
+
+    <!-- Chat with the Queens -->
+    <section id="queen-chat" class="queen-chat">
+        <div class="container">
+            <h2 class="section-label center">CHAT WITH THE QUEENS</h2>
+            <p class="queen-chat-lead">Four queens and a Princess. One group chat. Your move.</p>
+            <p class="queen-chat-sub">Talk to the whole band at once, or slide into one queen's DMs. Every queen has her own voice, her own vibe, and opinions about yours.</p>
+            <div class="queen-chat-row">
+                <a class="queen-chat-tile berry" href="#queen-chat" data-queenchat="berry" aria-label="Chat with Berry">
+                    <span class="queen-chat-img" style="background-image: url('images/sisters/chat/berry.webp');"></span>
+                    <span class="queen-chat-name">Berry</span>
+                </a>
+                <a class="queen-chat-tile honey" href="#queen-chat" data-queenchat="honey" aria-label="Chat with Honey">
+                    <span class="queen-chat-img" style="background-image: url('images/sisters/chat/honey.webp');"></span>
+                    <span class="queen-chat-name">Honey</span>
+                </a>
+                <a class="queen-chat-tile cherry" href="#queen-chat" data-queenchat="cherry" aria-label="Chat with Cherry">
+                    <span class="queen-chat-img" style="background-image: url('images/sisters/chat/cherry.webp');"></span>
+                    <span class="queen-chat-name">Cherry</span>
+                </a>
+                <a class="queen-chat-tile peach" href="#queen-chat" data-queenchat="peach" aria-label="Chat with Peach">
+                    <span class="queen-chat-img" style="background-image: url('images/sisters/chat/peach.webp');"></span>
+                    <span class="queen-chat-name">Peach</span>
+                </a>
+                <a class="queen-chat-tile princess" href="#queen-chat" data-queenchat="princess" aria-label="Chat with Princess">
+                    <span class="queen-chat-img" style="background-image: url('images/sisters/chat/princess.webp');"></span>
+                    <span class="queen-chat-name">Princess</span>
+                </a>
+            </div>
+            <a href="#queen-chat" class="btn btn-primary queen-chat-cta" data-queenchat="all">💬 Start chatting</a>
         </div>
     </section>
 
@@ -275,7 +288,7 @@
                 </a>
                 <a href="https://www.fanvue.com/rainbowqueen" class="social-link" target="_blank">
                     <span>🎤</span>
-                    <span>Backstage Pass</span>
+                    <span>Backstage</span>
                 </a>
                 <a href="https://app.virtuals.io/virtuals/15846" class="social-link" target="_blank">
                     <span>🤖</span>
@@ -296,6 +309,73 @@
             </p>
         </div>
     </footer>
+
+    <script>
+        // Film stage: teaser plays while in view; button swaps in the full film.
+        (function () {
+            var stage = document.querySelector('[data-film-stage]');
+            if (!stage) return;
+            var teaser = stage.querySelector('[data-film-teaser]');
+            var btn = stage.querySelector('[data-film-cta]');
+            var label = stage.querySelector('.film-play-label');
+            var lead = document.querySelector('[data-film-lead]');
+            var L = window.REALM_LINKS || {};
+            var mode = L.filmYouTubeId ? 'youtube' : (L.isPreview ? 'preview' : 'soon');
+            if (mode === 'soon') {
+                if (label) label.textContent = 'Full film coming soon';
+                if (lead) lead.textContent = 'Coming soon.';
+            }
+            var playing = false;
+            var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (teaser && !reduceMotion && 'IntersectionObserver' in window) {
+                new IntersectionObserver(function (entries) {
+                    entries.forEach(function (e) {
+                        if (playing) return;
+                        if (e.isIntersecting && e.intersectionRatio >= 0.5) {
+                            var p = teaser.play();
+                            if (p && p.catch) p.catch(function () {});
+                        } else {
+                            teaser.pause();
+                        }
+                    });
+                }, { threshold: [0, 0.5] }).observe(stage);
+            }
+            btn.addEventListener('click', function () {
+                if (window.posthog) {
+                    posthog.capture('film_watch_click', {
+                        mode: mode,
+                        source_domain: new URLSearchParams(location.search).get('src') || 'direct',
+                        path: location.pathname
+                    });
+                }
+                if (mode === 'soon') {
+                    window.realmToast('The full film drops soon 🎬 Follow @RainbowQueenAI for the premiere');
+                    return;
+                }
+                playing = true;
+                var player;
+                if (mode === 'youtube') {
+                    player = document.createElement('iframe');
+                    player.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(L.filmYouTubeId) + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+                    player.title = 'Searching for Rai';
+                    player.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
+                    player.setAttribute('allowfullscreen', '');
+                } else {
+                    player = document.createElement('video');
+                    player.src = L.filmPreviewSrc;
+                    player.controls = true;
+                    player.playsInline = true;
+                }
+                if (teaser) { teaser.pause(); teaser.remove(); }
+                stage.classList.add('is-playing');
+                stage.appendChild(player);
+                if (player.play) {
+                    var p = player.play();
+                    if (p && p.catch) p.catch(function () {});
+                }
+            });
+        })();
+    </script>
 
     <script>
         (function () {

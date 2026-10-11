@@ -15,3 +15,6 @@ npm-debug.log*
 
 # Dependencies (if you add them later)
 node_modules/
+
+# Local tailnet preview only (full film is hosted on YouTube, never in this repo)
+videos/_preview/

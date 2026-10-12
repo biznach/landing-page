@@ -4,19 +4,21 @@
  *
  *   filmYouTubeId   → Princess: the video ID from youtube.com/@RainbowQueenAI
  *                     (the part after watch?v= ). Empty = film shows "coming soon".
- *   queenChat       → Peach: top-level Queen Chat URL ("chat with all the queens").
+ *   queenChat       → Peach: top-level Realm Chat URL ("chat with all the queens"). Filled 2026-10-12.
  *   queenChatQueens → Peach: per-queen deep links. Empty = falls back to queenChat,
  *                     and if that's empty too, the button says doors open soon.
  */
 window.REALM_LINKS = {
     filmYouTubeId: '',
-    queenChat: '',
+    // Realm Chat lives at rai.fan/chat (absolute on purpose: the app also answers on our other domains, and a fan's
+    // world is kept per site, so every link goes to the one home). ?queen= opens her chat if she's in the fan's world.
+    queenChat: 'https://rai.fan/chat',
     queenChatQueens: {
-        berry: '',
-        honey: '',
-        cherry: '',
-        peach: '',
-        princess: ''
+        berry: 'https://rai.fan/chat?queen=berry',
+        honey: 'https://rai.fan/chat?queen=honey',
+        cherry: 'https://rai.fan/chat?queen=cherry',
+        peach: 'https://rai.fan/chat?queen=peach',
+        princess: 'https://rai.fan/chat?queen=princess'
     }
 };
 
@@ -57,7 +59,8 @@ window.REALM_LINKS = {
             var url = queenChatUrl(queen);
             if (url) {
                 el.setAttribute('href', url);
-                el.setAttribute('target', '_blank');
+                // One named tab: a world can be open in only one tab at a time, so every click reuses the same chat tab.
+                el.setAttribute('target', 'realm-chat');
                 el.setAttribute('rel', 'noopener');
             }
             el.addEventListener('click', function (ev) {

@@ -16,7 +16,8 @@
     --accent: linear-gradient(135deg, var(--pink), var(--blue));
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
-    --rainbow: linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #00ff00, #0000ff, #8b00ff);
+    /* Pastel rainbow sampled from the rai.fan crown logo (was full-saturation ROYGBV) */
+    --rainbow: linear-gradient(90deg, #f08c78, #ecc76b, #84d47c, #7fd3e6, #8f8ae8, #e99be4);
 }
 
 * {
@@ -44,10 +45,10 @@ body {
 }
 
 .rainbow-divider {
-    height: 2px;
+    height: 3px;
     width: 100%;
     background: var(--rainbow);
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 /* ============= HERO ============= */
@@ -612,10 +613,15 @@ body {
 }
 
 .cta-crown {
-    font-size: 3rem;
-    margin-top: 48px;
-    opacity: 0.6;
+    margin: 48px auto 0;
+    max-width: 420px;
 }
+.cta-crown img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+@media (max-width: 480px) { .cta-crown { max-width: 300px; } }
 
 /* ============= FOOTER ============= */
 

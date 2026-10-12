@@ -62,10 +62,10 @@
     <!-- Hero -->
     <section class="hero">
         <div class="hero-carousel" aria-label="Rai lookbook carousel">
-            <div class="carousel-slide is-active" style="background-image: url('images/LOOKBOOK_eras-tour-stage_20260306_shot2-portrait_nano.png');"></div>
-            <div class="carousel-slide" style="background-image: url('images/LOOKBOOK_red-carpet-premiere_shot5-mood_qwenpro.png');"></div>
-            <div class="carousel-slide" style="background-image: url('images/LOOKBOOK_music-video-shoot_shot2-portrait_qwenpro.png');"></div>
-            <div class="carousel-slide" style="background-image: url('images/music-video-director-20260331_shot2-portrait_qwenpro.png');"></div>
+            <div class="carousel-slide is-active" style="background-image: url('images/LOOKBOOK_eras-tour-stage_20260306_shot2-portrait_nano.webp');"></div>
+            <div class="carousel-slide" style="background-image: url('images/LOOKBOOK_red-carpet-premiere_shot5-mood_qwenpro.webp');"></div>
+            <div class="carousel-slide" style="background-image: url('images/LOOKBOOK_music-video-shoot_shot2-portrait_qwenpro.webp');"></div>
+            <div class="carousel-slide" style="background-image: url('images/music-video-director-20260331_shot2-portrait_qwenpro.webp');"></div>
         </div>
         <div class="hero-overlay"></div>
         <button class="carousel-nav prev" type="button" aria-label="Previous slide">&#10094;</button>
@@ -198,7 +198,7 @@
             <h2 class="section-label center">THE LOOKBOOK</h2>
             <p class="lookbook-caption">The Rainbow Realm — curated looks from the queen's lookbook</p>
             <div class="lookbook-video-wrap">
-                <video class="lookbook-video" autoplay muted loop playsinline preload="metadata" aria-label="Rainbow Queen magazine cover montage">
+                <video class="lookbook-video" data-inview-play muted loop playsinline preload="none" poster="images/lookbook-poster.jpg" aria-label="Rainbow Queen magazine cover montage">
                     <source src="videos/lookbook-magazine-montage.mp4" type="video/mp4">
                 </video>
             </div>
@@ -350,6 +350,21 @@
                     .observe(document.getElementById('queen-chat'));
             } else { start(); }
             show(0);
+        })();
+
+        // Background loops (lookbook montage): only decode while on screen.
+        (function () {
+            var vids = document.querySelectorAll('video[data-inview-play]');
+            if (!vids.length || !('IntersectionObserver' in window)) return;
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            var io = new IntersectionObserver(function (es) {
+                es.forEach(function (e) {
+                    var v = e.target;
+                    if (e.isIntersecting) { if (v.preload === 'none') v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+                    else { v.pause(); }
+                });
+            }, { threshold: 0.25 });
+            vids.forEach(function (v) { io.observe(v); });
         })();
 
         // Film stage: teaser plays while in view; button swaps in the full film.

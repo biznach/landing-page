@@ -999,3 +999,19 @@ body {
 @media (prefers-reduced-motion: reduce) { .hero-more { animation: none; } }
 .hero .carousel-dots { bottom: 96px; }
 @media (max-width: 640px) { .hero .carousel-dots { bottom: 92px; } .hero .scroll-indicator { bottom: 24px; } }
+/* Sister roll call rotator (Chat with the Sisters) */
+.queen-chat-question { color: var(--text-muted); font-size: 1.15rem; margin: 0 auto 0.4rem; }
+.qc-rotator { position: relative; height: 2.4em; margin: 0 auto 2rem; max-width: 760px; font-family: var(--font-display); font-size: clamp(1.15rem, 2.6vw, 1.5rem); font-weight: 600; overflow: hidden; }
+.qc-line { position: absolute; left: 0; right: 0; top: 50%; opacity: 0; transform: translate(40px, -50%); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); white-space: nowrap; }
+.qc-line.is-active { opacity: 1; transform: translate(0, -50%); }
+.qc-line.is-leaving { opacity: 0; transform: translate(-40px, -50%); }
+.qc-line.berry    { color: #ff6b9d; }
+.qc-line.honey    { color: #ffd166; }
+.qc-line.cherry   { color: #e0446e; }
+.qc-line.peach    { color: #ffb4a2; }
+.qc-line.princess { color: #c17bff; }
+.qc-rotator.is-static { height: auto; overflow: visible; }
+.qc-rotator.is-static .qc-line { position: static; display: block; opacity: 1; transform: none; white-space: normal; margin: 0.15rem 0; }
+.queen-chat-tile.is-featured .queen-chat-img { transform: translateY(-4px) scale(1.04); box-shadow: 0 14px 34px rgba(0,0,0,0.5), 0 0 24px var(--ring, var(--pink)); }
+@media (max-width: 480px) { .qc-line { white-space: normal; } .qc-rotator { height: 3em; } }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

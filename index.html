@@ -154,7 +154,15 @@
         <div class="container">
             <h2 class="section-label center">CHAT WITH THE SISTERS</h2>
             <p class="queen-chat-lead">Pick a sister. Slide into her DMs.</p>
-            <p class="queen-chat-sub">Every sister has her own voice, her own vibe, and opinions about yours. Choose who you want to talk to and say hi.</p>
+            <p class="queen-chat-question">Who are you texting first?</p>
+            <p class="qc-rotator" aria-hidden="true">
+                <span class="qc-line berry is-active" data-q="berry">Berry dreams big.</span>
+                <span class="qc-line honey" data-q="honey">Honey has expensive taste.</span>
+                <span class="qc-line cherry" data-q="cherry">Cherry is bearish on your excuses.</span>
+                <span class="qc-line peach" data-q="peach">Peach games hard.</span>
+                <span class="qc-line princess" data-q="princess">Princess reads the fine print.</span>
+            </p>
+            <p class="visually-hidden">Berry dreams big. Honey has expensive taste. Cherry is bearish on your excuses. Peach games hard. Princess reads the fine print.</p>
             <div class="queen-chat-row">
                 <a class="queen-chat-tile berry" href="#queen-chat" data-queenchat="berry" aria-label="Chat with Berry">
                     <span class="queen-chat-img" style="background-image: url('images/sisters/chat/berry.webp');"></span>
@@ -302,6 +310,48 @@
     </footer>
 
     <script>
+        // Sister roll call: "Who are you texting first?" → each sister's line swishes in, her tile lights up.
+        (function () {
+            var rot = document.querySelector('.qc-rotator');
+            if (!rot) return;
+            var lines = Array.prototype.slice.call(rot.querySelectorAll('.qc-line'));
+            var tiles = {};
+            document.querySelectorAll('.queen-chat-tile').forEach(function (t) { tiles[t.getAttribute('data-queenchat')] = t; });
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                rot.classList.add('is-static');
+                return;
+            }
+            var idx = 0, timer = null, held = false;
+            function show(i) {
+                var prev = lines[idx];
+                idx = (i + lines.length) % lines.length;
+                var next = lines[idx];
+                if (prev !== next) {
+                    prev.classList.remove('is-active');
+                    prev.classList.add('is-leaving');
+                    setTimeout(function () { prev.classList.remove('is-leaving'); }, 600);
+                }
+                next.classList.add('is-active');
+                Object.keys(tiles).forEach(function (k) { tiles[k].classList.toggle('is-featured', k === next.getAttribute('data-q')); });
+            }
+            function start() { stop(); timer = setInterval(function () { if (!held) show(idx + 1); }, 2600); }
+            function stop() { if (timer) clearInterval(timer); timer = null; }
+            Object.keys(tiles).forEach(function (k) {
+                var t = tiles[k];
+                var line = lines.findIndex(function (l) { return l.getAttribute('data-q') === k; });
+                if (line < 0) return;
+                t.addEventListener('mouseenter', function () { held = true; show(line); });
+                t.addEventListener('focus', function () { held = true; show(line); });
+                t.addEventListener('mouseleave', function () { held = false; });
+                t.addEventListener('blur', function () { held = false; });
+            });
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver(function (es) { es.forEach(function (e) { e.isIntersecting ? start() : stop(); }); }, { threshold: 0.2 })
+                    .observe(document.getElementById('queen-chat'));
+            } else { start(); }
+            show(0);
+        })();
+
         // Film stage: teaser plays while in view; button swaps in the full film.
         (function () {
             var stage = document.querySelector('[data-film-stage]');

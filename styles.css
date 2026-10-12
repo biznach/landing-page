@@ -987,3 +987,8 @@ body {
 
 /* Per-sister chat button on /sisters/ */
 .sister-chat-btn { margin-top: 1.25rem; display: inline-flex; }
+/* Rainbow Realm finale: pillars + join CTA + socials + crown in one closing section */
+.realm-finale { padding: 100px 0 110px; background: radial-gradient(ellipse at 50% 70%, var(--pink-glow) 0%, transparent 55%), var(--dark-card); }
+.realm-finale .pillars-grid { margin: 40px 0 0; text-align: left; }
+.realm-finale .realm-join { margin-top: 88px; }
+@media (max-width: 640px) { .realm-finale { padding: 72px 0 80px; } .realm-finale .realm-join { margin-top: 56px; } }

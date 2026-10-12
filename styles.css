@@ -584,11 +584,18 @@ body {
     margin: 0 auto 40px;
 }
 
+/* Social doors: 3 + 3 on desktop, 2 per row once it gets cramped */
 .cta-links {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
+    max-width: 760px;
+    margin: 0 auto;
+}
+.cta-links .social-link { justify-content: center; }
+@media (max-width: 640px) {
+    .cta-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .cta-links .social-link { padding: 14px 12px; }
 }
 
 .social-link {

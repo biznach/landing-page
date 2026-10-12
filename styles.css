@@ -992,3 +992,10 @@ body {
 .realm-finale .pillars-grid { margin: 40px 0 0; text-align: left; }
 .realm-finale .realm-join { margin-top: 88px; }
 @media (max-width: 640px) { .realm-finale { padding: 72px 0 80px; } .realm-finale .realm-join { margin-top: 56px; } }
+/* Hero: single quiet "Learn more" at bottom center (X follow button removed; lives in the socials) */
+.hero .scroll-indicator { bottom: 28px; }
+.hero-more { padding: 12px 26px; font-size: 0.95rem; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: heroMoreFloat 2.6s ease-in-out infinite; }
+@keyframes heroMoreFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+@media (prefers-reduced-motion: reduce) { .hero-more { animation: none; } }
+.hero .carousel-dots { bottom: 96px; }
+@media (max-width: 640px) { .hero .carousel-dots { bottom: 92px; } .hero .scroll-indicator { bottom: 24px; } }

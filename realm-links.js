@@ -9,7 +9,7 @@
  *                     and if that's empty too, the button says doors open soon.
  */
 window.REALM_LINKS = {
-    filmYouTubeId: '',
+    filmYouTubeId: 'ZEWmBbEmwk4',  // Searching for Rai — Director's Cut (unlisted), 2026-10-20
     // Realm Chat lives at rai.fan/chat (absolute on purpose: the app also answers on our other domains, and a fan's
     // world is kept per site, so every link goes to the one home). ?queen= opens her chat if she's in the fan's world.
     queenChat: 'https://rai.fan/chat',

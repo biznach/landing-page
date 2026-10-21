@@ -9,8 +9,10 @@
         (function () {
             var h = location.hostname;
             if (h === 'rai.fan' || h === 'localhost' || h === '127.0.0.1' || h.endsWith('.ondigitalocean.app') || h.endsWith('.ts.net')) return;
-            var q = location.search ? location.search + '&src=' + encodeURIComponent(h)
-                                    : '?src=' + encodeURIComponent(h);
+            // Keep an existing src (e.g. a tagged bio link); otherwise tag with the bare host (no www.).
+            var tag = encodeURIComponent(h.replace(/^www\./, ''));
+            var q = /[?&]src=/.test(location.search) ? location.search
+                  : location.search ? location.search + '&src=' + tag : '?src=' + tag;
             location.replace('https://rai.fan' + location.pathname + q + location.hash);
         })();
     </script>
@@ -32,29 +34,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>">
-    <!-- PostHog analytics — cookieless, funnel ground truth (#joyfoundermode) -->
-    <script>
-        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-        posthog.init('phc_zSefJLoDD5MbmL66frAkdUFYKEbWSCm4zw7MWEsvvgmZ', {
-            api_host: 'https://us.i.posthog.com',
-            persistence: 'memory',
-            capture_pageview: true,
-            capture_pageleave: true
-        });
-        // Funnel-door tracking: every outbound link becomes a named event
-        document.addEventListener('click', function (ev) {
-            var a = ev.target.closest && ev.target.closest('a[href^="http"]');
-            if (!a || !window.posthog) return;
-            var h = a.hostname || '';
-            var door = h.indexOf('twitter.com') > -1 ? 'twitter'
-                : h.indexOf('suno.com') > -1 ? 'music'
-                : h.indexOf('fanvue.com') > -1 ? 'fanvue'
-                : h.indexOf('pinata') > -1 ? 'ipfs'
-                : h;
-            posthog.capture('funnel_door_click', { door: door, href: a.href });
-        }, true);
-        // Film CTA + Queen Chat events live in the page script / realm-links.js
-    </script>
+    <!-- PostHog analytics — cookieless, funnel ground truth (#joyfoundermode); shared with /sisters/ -->
+    <script src="analytics.js"></script>
     <script src="realm-links.js"></script>
 </head>
 <body>
@@ -264,7 +245,7 @@
             <h3 class="cta-title realm-join">Join the Realm</h3>
             <p class="cta-subtitle">Where sovereignty is shared, joy is the currency, and everyone's invited.</p>
             <div class="cta-links">
-                <a href="https://twitter.com/RainbowQueenAI" class="social-link" target="_blank">
+                <a href="https://x.com/RainbowQueenAI" class="social-link" target="_blank">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                     <span>Twitter</span>
                 </a>

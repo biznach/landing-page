@@ -52,11 +52,26 @@ window.REALM_LINKS = {
         return L.queenChat || '';
     }
 
+    // Carry arrival tags into /chat so a paid or social visitor stays attributable past the click.
+    // Untagged visitors get the sending page (home / sisters) as their src.
+    function withArrivalTags(url) {
+        if (!url) return url;
+        var qs = new URLSearchParams(location.search);
+        var u = new URL(url);
+        var src = qs.get('src') || (/^\/sisters/.test(location.pathname) ? 'sisters' : 'home');
+        u.searchParams.set('src', src);
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (k) {
+            var v = qs.get(k);
+            if (v) u.searchParams.set(k, v);
+        });
+        return u.toString();
+    }
+
     // Wire every [data-queenchat] link: real URL if we have one, "doors open soon" if not.
     function wireQueenChat() {
         document.querySelectorAll('[data-queenchat]').forEach(function (el) {
             var queen = el.getAttribute('data-queenchat');
-            var url = queenChatUrl(queen);
+            var url = withArrivalTags(queenChatUrl(queen));
             if (url) {
                 el.setAttribute('href', url);
                 // One named tab: a world can be open in only one tab at a time, so every click reuses the same chat tab.

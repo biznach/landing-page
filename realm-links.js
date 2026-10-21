@@ -2,7 +2,7 @@
  * realm-links.js — one place for the links that drop in on ship day.
  * Shared by / and /sisters/. Fill these in, commit, push. Nothing else changes.
  *
- *   filmYouTubeId   → Princess: the video ID from youtube.com/@RainbowQueenAI
+ *   filmYouTubeId   → the video ID from youtube.com/@RaiRainbowQueen
  *                     (the part after watch?v= ). Empty = film shows "coming soon".
  *   queenChat       → Peach: top-level Realm Chat URL ("chat with all the queens"). Filled 2026-10-12.
  *   queenChatQueens → Peach: per-queen deep links. Empty = falls back to queenChat,
